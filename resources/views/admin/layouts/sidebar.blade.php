@@ -67,58 +67,7 @@
                                     </li>
                                     <!-- End::slide -->
 
-                                    <!-- Start::slide -->
-                                    <li class="slide {{ is_active_route('admin.orders.*', 'active') }} ">
-                                        <a href="{{route('admin.orders.index')}}"
-                                           class="side-menu__item {{ is_active_route('admin.orders.*', 'active') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="1em"
-                                                 height="1em" viewBox="0 0 24 24">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                      stroke-linejoin="round" stroke-width="1.5"
-                                                      d="M2.5 12c0-4.478 0-6.718 1.391-8.109S7.521 2.5 12 2.5c4.478 0 6.718 0 8.109 1.391S21.5 7.521 21.5 12c0 4.478 0 6.718-1.391 8.109S16.479 21.5 12 21.5c-4.478 0-6.718 0-8.109-1.391S2.5 16.479 2.5 12M11 7h6M7 7h1m-1 5h1m-1 5h1m3-5h6m-6 5h6"
-                                                      color="currentColor"></path>
-                                            </svg>
-                                            <span class="side-menu__label">مدیریت سفارشات</span>
-                                        </a>
-                                    </li>
-                                    <!-- End::slide -->
 
-                                    <!-- Start::slide -->
-                                    <li class="slide {{ is_active_route('admin.products.*', 'active') }} ">
-                                        <a href="{{route('admin.products.index')}}"
-                                           class="side-menu__item {{ is_active_route('admin.products.*', 'active') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon"
-                                                 width="1em" height="1em" viewBox="0 0 24 24">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                      stroke-linejoin="round" stroke-width="1.5"
-                                                      d="M4 11v4c0 3.3 0 4.95 1.025 5.975S7.7 22 11 22h2c3.3 0 4.95 0 5.975-1.025S20 18.3 20 15v-4M3 9c0-.748 0-1.122.201-1.4a1.4 1.4 0 0 1 .549-.44C4.098 7 4.565 7 5.5 7h13c.935 0 1.402 0 1.75.16c.228.106.417.258.549.44C21 7.878 21 8.252 21 9s0 1.121-.201 1.4a1.4 1.4 0 0 1-.549.44c-.348.16-.815.16-1.75.16h-13c-.935 0-1.402 0-1.75-.16a1.4 1.4 0 0 1-.549-.44C3 10.121 3 9.748 3 9m3-5.214C6 2.799 6.8 2 7.786 2h.357A3.857 3.857 0 0 1 12 5.857V7H9.214A3.214 3.214 0 0 1 6 3.786m12 0C18 2.799 17.2 2 16.214 2h-.357A3.857 3.857 0 0 0 12 5.857V7h2.786A3.214 3.214 0 0 0 18 3.786M12 11v11"
-                                                      color="currentColor"></path>
-                                            </svg>
-                                            <span class="side-menu__label">مدیریت محصولات</span>
-                                        </a>
-                                    </li>
-                                    <!-- End::slide -->
-
-                                    <!-- Start::slide -->
-                                    <li class="slide {{ is_active_route('admin.categories.*', 'active') }}">
-                                        <a href="{{ route('admin.categories.index') }}"
-                                           class="side-menu__item {{ is_active_route('admin.categories.*', 'active') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="1em"
-                                                 height="1em" viewBox="0 0 24 24">
-                                                <g fill="none" stroke="currentColor" stroke-linecap="round"
-                                                   stroke-linejoin="round" stroke-width="1.5" color="currentColor">
-                                                    <path
-                                                        d="m8.643 3.146l-1.705.788C4.313 5.147 3 5.754 3 6.75s1.313 1.603 3.938 2.816l1.705.788c1.652.764 2.478 1.146 3.357 1.146s1.705-.382 3.357-1.146l1.705-.788C19.687 8.353 21 7.746 21 6.75s-1.313-1.603-3.938-2.816l-1.705-.788C13.705 2.382 12.879 2 12 2s-1.705.382-3.357 1.146"></path>
-                                                    <path
-                                                        d="M20.788 11.097c.141.199.212.406.212.634c0 .982-1.313 1.58-3.938 2.776l-1.705.777c-1.652.753-2.478 1.13-3.357 1.13s-1.705-.377-3.357-1.13l-1.705-.777C4.313 13.311 3 12.713 3 11.731c0-.228.07-.435.212-.634"></path>
-                                                    <path
-                                                        d="M20.377 16.266c.415.331.623.661.623 1.052c0 .981-1.313 1.58-3.938 2.776l-1.705.777C13.705 21.624 12.879 22 12 22s-1.705-.376-3.357-1.13l-1.705-.776C4.313 18.898 3 18.299 3 17.318c0-.391.208-.72.623-1.052"></path>
-                                                </g>
-                                            </svg>
-                                            <span class="side-menu__label">مدیریت دسته‌بندی‌ها</span>
-                                        </a>
-                                    </li>
-                                    <!-- End::slide -->
 
                                     <!-- Start::slide -->
                                     <li class="slide {{ is_active_route('admin.admins.*', 'active') }}">
@@ -138,24 +87,6 @@
                                     </li>
                                     <!-- End::slide -->
 
-                                    <!-- Start::slide -->
-                                    <li class="slide {{ is_active_route('admin.sliders.*', 'active') }}">
-                                        <a href="{{ route('admin.sliders.index') }}"
-                                           class="side-menu__item {{ is_active_route('admin.sliders.*', 'active') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="1em"
-                                                 height="1em" viewBox="0 0 24 24">
-                                                <g fill="none" stroke="currentColor" stroke-linecap="round"
-                                                   stroke-linejoin="round" stroke-width="1.5" color="currentColor">
-                                                    <path
-                                                        d="M3 10.987v4.506c0 2.833 0 4.249.879 5.129c.878.88 2.293.88 5.121.88h6c2.828 0 4.243 0 5.121-.88S21 18.326 21 15.493v-4.506M7 17.974h4"></path>
-                                                    <path
-                                                        d="M17.796 2.5L6.15 2.53c-1.738-.09-2.184 1.249-2.184 1.903c0 .585-.075 1.438-1.14 3.042c-1.066 1.603-.986 2.08-.385 3.19c.498.92 1.766 1.28 2.428 1.341c2.1.048 3.122-1.766 3.122-3.041c1.042 3.203 4.005 3.203 5.325 2.837c1.322-.367 2.456-1.68 2.723-2.837c.156 1.437.63 2.276 2.027 2.852c1.449.597 2.694-.315 3.319-.9s1.026-1.883-.088-3.31c-.768-.984-1.089-1.912-1.194-2.872c-.06-.557-.114-1.155-.506-1.536c-.572-.556-1.394-.725-1.801-.699"></path>
-                                                </g>
-                                            </svg>
-                                            <span class="side-menu__label">اسلایدر</span>
-                                        </a>
-                                    </li>
-                                    <!-- End::slide -->
 
                                     <!-- Start::slide -->
                                     <li class="slide {{ is_active_route('admin.notifications.*', 'active') }}">

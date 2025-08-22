@@ -165,134 +165,134 @@
                         </div>
 
 
-                        <div class="col-xl-12">
-                            <div class="card custom-card overflow-hidden">
-                                <div class="card-header justify-content-between">
-                                    <div class="card-title">
-                                        سفارشات اخیر
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive ">
-                                        <table class="table text-nowrap table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>مشتری</th>
-                                                <th>محصولات</th> <!-- اگر محصولات دارید -->
-                                                <th>تاریخ سفارش</th>
-                                                <th>وضعیت</th>
-                                                <th>مبلغ کل</th>
-                                                <th>توضیحات</th> <!-- جایگزین روش پرداخت -->
-                                                <th>اقدامات</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @forelse($orders as $order)
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <div class="lh-1">
-                        <span class="avatar avatar-md bg-primary-transparent">
-                            {{ strtoupper(substr(get_user_full_name($order->user_id), 0, 2)) }}
-                        </span>
-                                                            </div>
-                                                            <div>
-                                                                <span
-                                                                    class="fw-semibold d-block">{{ get_user_full_name($order->user_id) }}</span>
-                                                                <span
-                                                                    class="text-muted fs-12">#{{ $order->tracking_code }}</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+{{--                        <div class="col-xl-12">--}}
+{{--                            <div class="card custom-card overflow-hidden">--}}
+{{--                                <div class="card-header justify-content-between">--}}
+{{--                                    <div class="card-title">--}}
+{{--                                        سفارشات اخیر--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="card-body p-0">--}}
+{{--                                    <div class="table-responsive ">--}}
+{{--                                        <table class="table text-nowrap table-hover">--}}
+{{--                                            <thead>--}}
+{{--                                            <tr>--}}
+{{--                                                <th>مشتری</th>--}}
+{{--                                                <th>محصولات</th> <!-- اگر محصولات دارید -->--}}
+{{--                                                <th>تاریخ سفارش</th>--}}
+{{--                                                <th>وضعیت</th>--}}
+{{--                                                <th>مبلغ کل</th>--}}
+{{--                                                <th>توضیحات</th> <!-- جایگزین روش پرداخت -->--}}
+{{--                                                <th>اقدامات</th>--}}
+{{--                                            </tr>--}}
+{{--                                            </thead>--}}
+{{--                                            <tbody>--}}
+{{--                                            @forelse($orders as $order)--}}
+{{--                                                <tr>--}}
+{{--                                                    <td>--}}
+{{--                                                        <div class="d-flex align-items-center gap-2">--}}
+{{--                                                            <div class="lh-1">--}}
+{{--                        <span class="avatar avatar-md bg-primary-transparent">--}}
+{{--                            {{ strtoupper(substr(get_user_full_name($order->user_id), 0, 2)) }}--}}
+{{--                        </span>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div>--}}
+{{--                                                                <span--}}
+{{--                                                                    class="fw-semibold d-block">{{ get_user_full_name($order->user_id) }}</span>--}}
+{{--                                                                <span--}}
+{{--                                                                    class="text-muted fs-12">#{{ $order->tracking_code }}</span>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </td>--}}
 
-                                                    <td>
-                                                        @if($order->items && $order->items->count() > 0)
-                                                            @php
-                                                                $firstItem = $order->items->first();
-                                                                $firstProduct = $firstItem->product ?? null;
+{{--                                                    <td>--}}
+{{--                                                        @if($order->items && $order->items->count() > 0)--}}
+{{--                                                            @php--}}
+{{--                                                                $firstItem = $order->items->first();--}}
+{{--                                                                $firstProduct = $firstItem->product ?? null;--}}
 
-                                                                $remainingCount = $order->items->count() - 1;
-                                                            @endphp
+{{--                                                                $remainingCount = $order->items->count() - 1;--}}
+{{--                                                            @endphp--}}
 
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="me-3">
-                                                                    <img src="{{ getProductImageUrl($firstProduct) }}"
-                                                                         alt="{{ $firstProduct->name ?? '' }}"
-                                                                         class="rounded-circle"
-                                                                         style="width: 38px; height: 38px; object-fit: cover;">
-                                                                </div>
-                                                                <div class="flex-grow-1">
-                                                                    <div
-                                                                        class="fw-bold  ">    {{ Str::limit($firstProduct->name ?? 'محصول نامشخص', 15) }}</div>
-                                                                    @if($remainingCount > 0)
-                                                                        <small
-                                                                            class="text-muted">و {{ $remainingCount }}
-                                                                            محصول دیگر</small>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        @else
-                                                            <span class="text-muted">ندارد</span>
-                                                        @endif
-                                                    </td>
+{{--                                                            <div class="d-flex align-items-center">--}}
+{{--                                                                <div class="me-3">--}}
+{{--                                                                    <img src="{{ getProductImageUrl($firstProduct) }}"--}}
+{{--                                                                         alt="{{ $firstProduct->name ?? '' }}"--}}
+{{--                                                                         class="rounded-circle"--}}
+{{--                                                                         style="width: 38px; height: 38px; object-fit: cover;">--}}
+{{--                                                                </div>--}}
+{{--                                                                <div class="flex-grow-1">--}}
+{{--                                                                    <div--}}
+{{--                                                                        class="fw-bold  ">    {{ Str::limit($firstProduct->name ?? 'محصول نامشخص', 15) }}</div>--}}
+{{--                                                                    @if($remainingCount > 0)--}}
+{{--                                                                        <small--}}
+{{--                                                                            class="text-muted">و {{ $remainingCount }}--}}
+{{--                                                                            محصول دیگر</small>--}}
+{{--                                                                    @endif--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        @else--}}
+{{--                                                            <span class="text-muted">ندارد</span>--}}
+{{--                                                        @endif--}}
+{{--                                                    </td>--}}
 
 
-                                                    <td>
-                                                        <span
-                                                            class="fw-semibold d-block">{{ verta($order->created_at)->format('Y-m-d') }}</span>
-                                                        <span
-                                                            class="fs-12 text-muted">{{ verta($order->created_at)->format('H:i a') }}</span>
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        <span--}}
+{{--                                                            class="fw-semibold d-block">{{ verta($order->created_at)->format('Y-m-d') }}</span>--}}
+{{--                                                        <span--}}
+{{--                                                            class="fs-12 text-muted">{{ verta($order->created_at)->format('H:i a') }}</span>--}}
+{{--                                                    </td>--}}
 
-                                                    <td>
-                                                        <span class="badge
-                                                            @if($order->status == 'pending') bg-warning
-                                                            @elseif($order->status == 'processing') bg-info
-                                                            @elseif($order->status == 'shipped') bg-success
-                                                            @elseif($order->status == 'cancelled') bg-danger
-                                                            @else bg-secondary
-                                                            @endif">
-                                                            @if($order->status == 'pending')
-                                                                در انتظار
-                                                            @elseif($order->status == 'processing')
-                                                                در حال پردازش
-                                                            @elseif($order->status == 'shipped')
-                                                                ارسال شده
-                                                            @elseif($order->status == 'cancelled')
-                                                                لغو شده
-                                                            @else
-                                                                نامشخص
-                                                            @endif
-                                                        </span>
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        <span class="badge--}}
+{{--                                                            @if($order->status == 'pending') bg-warning--}}
+{{--                                                            @elseif($order->status == 'processing') bg-info--}}
+{{--                                                            @elseif($order->status == 'shipped') bg-success--}}
+{{--                                                            @elseif($order->status == 'cancelled') bg-danger--}}
+{{--                                                            @else bg-secondary--}}
+{{--                                                            @endif">--}}
+{{--                                                            @if($order->status == 'pending')--}}
+{{--                                                                در انتظار--}}
+{{--                                                            @elseif($order->status == 'processing')--}}
+{{--                                                                در حال پردازش--}}
+{{--                                                            @elseif($order->status == 'shipped')--}}
+{{--                                                                ارسال شده--}}
+{{--                                                            @elseif($order->status == 'cancelled')--}}
+{{--                                                                لغو شده--}}
+{{--                                                            @else--}}
+{{--                                                                نامشخص--}}
+{{--                                                            @endif--}}
+{{--                                                        </span>--}}
+{{--                                                    </td>--}}
 
-                                                    <td>{{ number_format($order->total_price) }} تومان</td>
+{{--                                                    <td>{{ number_format($order->total_price) }} تومان</td>--}}
 
-                                                    <td>{{ $order->notes ?? 'ندارد' }}</td>
+{{--                                                    <td>{{ $order->notes ?? 'ندارد' }}</td>--}}
 
-                                                    <td>
-                                                        <div class="btn-list">
-                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
-                                                               class="btn btn-primary-light btn-icon btn-sm"
-                                                               title="مشاهده"><i class="ri-eye-line"></i></a>
-                                                            <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                               class="btn btn-secondary-light btn-icon btn-sm"
-                                                               title="ویرایش"><i class="ti ti-pencil"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="7" class="text-center">هیچ سفارشی یافت نشد.</td>
-                                                </tr>
-                                            @endforelse
-                                            </tbody>
-                                        </table>
+{{--                                                    <td>--}}
+{{--                                                        <div class="btn-list">--}}
+{{--                                                            <a href="{{ route('admin.orders.show', $order->id) }}"--}}
+{{--                                                               class="btn btn-primary-light btn-icon btn-sm"--}}
+{{--                                                               title="مشاهده"><i class="ri-eye-line"></i></a>--}}
+{{--                                                            <a href="{{ route('admin.orders.edit', $order->id) }}"--}}
+{{--                                                               class="btn btn-secondary-light btn-icon btn-sm"--}}
+{{--                                                               title="ویرایش"><i class="ti ti-pencil"></i></a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </td>--}}
+{{--                                                </tr>--}}
+{{--                                            @empty--}}
+{{--                                                <tr>--}}
+{{--                                                    <td colspan="7" class="text-center">هیچ سفارشی یافت نشد.</td>--}}
+{{--                                                </tr>--}}
+{{--                                            @endforelse--}}
+{{--                                            </tbody>--}}
+{{--                                        </table>--}}
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>
