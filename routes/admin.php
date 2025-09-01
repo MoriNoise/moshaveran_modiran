@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\MessageTemplate\MessageTemplateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\User\UserController;
@@ -54,13 +55,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         /**
          * Notifications
          */
-        Route::prefix('notifications')->name('notifications.')->controller(NotificationController::class)->group(function () {
+        Route::prefix('messages')->name('notifications.')->controller(MessageTemplateController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
             Route::get('{notification}', 'show')->name('show');
+//            Route::put('/{notification}/edit', 'update')->name('update');
+            Route::put('/{notification}', 'update')->name('update');// update existing
             Route::get('/{notification}/edit', 'edit')->name('edit');
-            Route::put('/{notification}/edit', 'update')->name('update');
             Route::delete('/{notification}', 'destroy')->name('destroy');
         });
         /**

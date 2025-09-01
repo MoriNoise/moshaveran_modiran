@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MessageTemplate;
 use App\Models\User;
 
 
@@ -22,7 +23,10 @@ class DashboardController extends Controller
 //        $totalSalesCount = Order::count();
 //        $totalRevenue = Order::sum('total_price');
 //        $totalProfit = Order::sum('total_price') * 20 / 100;
+
+
         $totalCustomers = User::count();
+        $totalTemplates = MessageTemplate::count();
 
         return view('admin.index', [
             'title' => 'داشبورد',
@@ -30,7 +34,7 @@ class DashboardController extends Controller
 //            'recentTransactions' => $recentTransactions,
             'totalSalesCount' => 10,
             'totalRevenue' => 20,
-            'totalProfit' => 30,
+            'totalTemplates' => 30,
             'totalCustomers' => $totalCustomers,
         ]);
     }

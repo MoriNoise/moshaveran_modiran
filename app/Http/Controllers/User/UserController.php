@@ -254,17 +254,10 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = User::findOrFail($id);
-        $orders = $user->orders()->with('items.product.category', 'items.product.files')->get();
-        $purchasedProducts = $orders->flatMap(function ($order) {
-            return $order->items->map(function ($item) {
-                return $item->product;
-            });
-        })->unique('id');  //
+
         return view('admin.users.show', [
             'title' => 'جزییات کاربر',
-            'user' => $user,
-            'purchasedProducts' => $purchasedProducts,
-        ]);
+            'user' => $user,]);
     }
 
     public function update(int $id, UpdateUserPutRequest $request)
@@ -281,35 +274,10 @@ class UserController extends Controller
 
         $user->update($data);
 
-        if ($request->hasFile('images')) {
-
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('users', 'public');
-
-                $user->files()->create([
-                    'filename' => $path,
-                    'original_name' => $image->getClientOriginalName(),
-                    'mime_type' => $image->getClientMimeType(),
-                    'size' => $image->getSize(),
-                    'type' => 'image',
-                ]);
-            }
-        }
 
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ویرایش شد');
     }
 
-    public function deleteImage(User $user, File $file)
-    {
-        $user->files()->detach($file->id);
-
-        if ($file->fileables()->count() === 0) {
-            \Storage::disk('public')->delete($file->filename); // یا file_path اگر داری
-            $file->delete();
-        }
-
-        return back()->with('success', 'عکس با موفقیت حذف شد');
-    }
 
     public function destroy(int $id)
     {

@@ -100,7 +100,7 @@
                                                     <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                                                 </g>
                                             </svg>
-                                            <span class="side-menu__label">اعلان‌ها</span>
+                                            <span class="side-menu__label">قالب پیام‌ها</span>
                                         </a>
                                     </li>
                                     <!-- End::slide -->

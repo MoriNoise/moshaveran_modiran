@@ -8,12 +8,13 @@
             عزیز
         </p>
         <p class="fs-13 text-muted mb-0">
-            به داشبورد مدیریت فروشگاه خوش آمدید.
+            به داشبورد مدیریت مشاوران مدیران خوش آمدید.
         </p>
     </div>
 @endsection
 
 @section('content')
+
     <div class="main-content app-content">
         <div class="container-fluid">
 
@@ -75,9 +76,9 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <div class="flex-fill fw-medium fs-13 mb-1 text-dark">سود حاصل از فروش</div>
+                                            <div class="flex-fill fw-medium fs-13 mb-1 text-dark">مجموع قالب پیام</div>
                                             <div
-                                                class="fs-22 fw-semibold mb-1 text-secondary">{{number_format($totalProfit)}}
+                                                class="fs-22 fw-semibold mb-1 text-secondary">{{number_format($totalTemplates)}}
                                                 تومان
                                             </div>
                                             <div class="d-flex align-items-center fs-11">

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Admin\Notification;
+namespace App\Http\Requests\Admin\MessageTemplate;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateNotificationPostRequest extends FormRequest
+class CreateMessageTemplatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return true; // adjust if you want to add policies later
     }
 
     /**
@@ -22,11 +22,9 @@ class CreateNotificationPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string', 'max:1000'],
-            'is_read' => ['nullable', 'boolean'],
+            'name' => ['required', 'string', 'max:100'],
+            'content' => ['required', 'string'],
+            'category' => ['nullable', 'string', 'max:50'],
         ];
-
     }
 }

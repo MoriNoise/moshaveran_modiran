@@ -7,13 +7,14 @@
             <!-- Page Header -->
             <div class="my-4 page-header-breadcrumb d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div>
-                    <h1 class="page-title fw-medium fs-18 mb-2">اعلان جدید</h1>
-                    <div class="">
+                    <h1 class="page-title fw-medium fs-18 mb-2">ایجاد قالب پیام</h1>
+                    <div>
                         <nav>
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('admin.notifications.index') }}">اعلان‌ها</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">ایجاد اعلان</li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('admin.notifications.index') }}">قالب پیام‌ها</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">ایجاد قالب</li>
                             </ol>
                         </nav>
                     </div>
@@ -30,9 +31,9 @@
                             <form action="{{ route('admin.notifications.store') }}" method="POST">
                                 @csrf
 
-                                <!-- name -->
+                                <!-- Name -->
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">نام اعلان</label>
+                                    <label for="name" class="form-label">نام قالب</label>
                                     <input type="text" name="name" id="name" class="form-control"
                                            value="{{ old('name') }}">
                                     @error('name')
@@ -40,17 +41,7 @@
                                     @enderror
                                 </div>
 
-                                <!-- content -->
-                                <div class="mb-3">
-                                    <label for="content" class="form-label">محتوا</label>
-                                    <textarea name="content" id="content" rows="4"
-                                              class="form-control">{{ old('content') }}</textarea>
-                                    @error('content')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <!-- category -->
+                                <!-- Category -->
                                 <div class="mb-3">
                                     <label for="category" class="form-label">دسته‌بندی</label>
                                     <input type="text" name="category" id="category" class="form-control"
@@ -60,8 +51,17 @@
                                     @enderror
                                 </div>
 
+                                <!-- Content -->
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">محتوا</label>
+                                    <textarea name="content" id="content" rows="6" class="form-control">{{ old('content') }}</textarea>
+                                    @error('content')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <button type="submit" class="btn btn-primary btn-wave waves-effect waves-light">
-                                    ایجاد اعلان
+                                    ایجاد قالب
                                 </button>
                                 <a href="{{ route('admin.notifications.index') }}" class="btn btn-light">بازگشت</a>
                             </form>
