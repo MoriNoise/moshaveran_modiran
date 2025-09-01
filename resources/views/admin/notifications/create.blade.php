@@ -12,7 +12,7 @@
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a
-                                            href="{{ route('admin.notifications.index') }}">اعلان‌ها</a></li>
+                                        href="{{ route('admin.notifications.index') }}">اعلان‌ها</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">ایجاد اعلان</li>
                             </ol>
                         </nav>
@@ -30,35 +30,32 @@
                             <form action="{{ route('admin.notifications.store') }}" method="POST">
                                 @csrf
 
+                                <!-- name -->
                                 <div class="mb-3">
-                                    <label for="user_id" class="form-label">کاربر</label>
-                                    <select name="user_id" id="user_id" class="form-control">
-                                        <option value="">انتخاب کاربر</option>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                                {{ get_user_full_name($user->id) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
+                                    <label for="name" class="form-label">نام اعلان</label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                           value="{{ old('name') }}">
+                                    @error('name')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+                                <!-- content -->
                                 <div class="mb-3">
-                                    <label for="title" class="form-label">عنوان</label>
-                                    <input type="text" name="title" id="title" class="form-control"
-                                           value="{{ old('title') }}">
-                                    @error('title')
+                                    <label for="content" class="form-label">محتوا</label>
+                                    <textarea name="content" id="content" rows="4"
+                                              class="form-control">{{ old('content') }}</textarea>
+                                    @error('content')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+                                <!-- category -->
                                 <div class="mb-3">
-                                    <label for="message" class="form-label">پیام</label>
-                                    <textarea name="message" id="message" rows="4"
-                                              class="form-control">{{ old('message') }}</textarea>
-                                    @error('message')
+                                    <label for="category" class="form-label">دسته‌بندی</label>
+                                    <input type="text" name="category" id="category" class="form-control"
+                                           value="{{ old('category') }}">
+                                    @error('category')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>

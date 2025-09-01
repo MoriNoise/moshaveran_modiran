@@ -1,7 +1,25 @@
-<!-- Persian Date Library -->
+<!-- Persian Date Libraries -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/persian-date/dist/persian-date.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#birthday_view").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValue: false,
+            onSelect: function (unix) {
+                // ذخیره تاریخ به فرمت میلادی در hidden input
+                let gregorian = new persianDate(unix).toGregorian();
+                let formatted = gregorian.year + "-" +
+                    ("0"+gregorian.month).slice(-2) + "-" +
+                    ("0"+gregorian.day).slice(-2);
+                $("#birthday").val(formatted);
+            }
+        });
+    });
+</script>
 
 <!-- Popper JS -->
 <script src="{{asset('assets/admin/js/popper.min.js')}}"></script>

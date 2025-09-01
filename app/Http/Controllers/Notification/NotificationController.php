@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Notification\CreateNotificationPostRequest;
 use App\Http\Requests\Admin\Notification\UpdateNotificationPostRequest;
+use App\Models\MessageTemplate;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class NotificationController extends Controller
 
     public function index(Request $request)
     {
-        $query = Notification::with('user')->orderBy('created_at', 'desc');
+        $query = MessageTemplate::with('user')->orderBy('created_at', 'desc');
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -39,7 +40,7 @@ class NotificationController extends Controller
     {
         $request->validated();
 
-        Notification::create([
+        MessageTemplate::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
             'message' => $request->message,
@@ -50,14 +51,14 @@ class NotificationController extends Controller
     }
 
 
-    public function edit(Notification $notification)
+    public function edit(MessageTemplate $notification)
     {
         $users = User::orderBy('first_name')->get();
         return view('admin.notifications.edit', compact('notification', 'users'));
     }
 
 
-    public function update(UpdateNotificationPostRequest $request, Notification $notification)
+    public function update(UpdateNotificationPostRequest $request, MessageTemplate $notification)
     {
         $request->validated();
 
@@ -72,13 +73,13 @@ class NotificationController extends Controller
     }
 
 
-    public function destroy(Notification $notification)
+    public function destroy(MessageTemplate $notification)
     {
         $notification->delete();
         return redirect()->route('admin.notifications.index')->with('success', 'اعلان حذف شد.');
     }
 
-    public function show(Notification $notification)
+    public function show(MessageTemplate $notification)
     {
         $notification->load('user');
         return view('admin.notifications.show', compact('notification'));
