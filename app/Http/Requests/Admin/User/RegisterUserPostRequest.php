@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class RegisterUserPostRequest extends FormRequest
 {
@@ -15,13 +15,6 @@ class RegisterUserPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => [
-                'required',
-                'string',
-                'min:3',
-                'max:25',
-                'unique:App\Models\User,username'
-            ],
             'first_name' => [
                 'required',
                 'string',
@@ -30,29 +23,46 @@ class RegisterUserPostRequest extends FormRequest
                 'max:60',
             ],
             'last_name' => [
-                'required',
+                'nullable',
                 'string',
                 'persian_alpha',
                 'min:2',
                 'max:60',
             ],
             'email' => [
-                'required',
+                'nullable',
                 'string',
                 'email',
                 'max:255',
-                'unique:App\Models\User,email'
+                'unique:users,email',
             ],
-            'password' => [
+            'phone' => [
                 'required',
                 'string',
-                'min:6',
-                'confirmed',
+                'max:20',
+                'unique:users,phone',
             ],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['file', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
-
+            'gender' => [
+                'nullable',
+                Rule::in(['male', 'female', 'other']),
+            ],
+            'birthday' => [
+                'nullable',
+                'date',
+            ],
+            'organization' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'is_active' => [
+                'sometimes',
+                'boolean',
+            ],
+            'extra' => [
+                'nullable',
+                'array',
+            ],
         ];
     }
 }
-

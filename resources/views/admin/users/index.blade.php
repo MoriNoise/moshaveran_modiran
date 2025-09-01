@@ -31,6 +31,9 @@
                                     <a href="{{ route('admin.users.create') }}" class="btn btn-primary me-2">
                                         <i class="ri-add-line me-1 fw-medium align-middle"></i>کاربر جدید
                                     </a>
+                                    <a href="{{ route('admin.users.import.vcf') }}" class="btn btn-success me-2">
+                                        <i class="ri-file-add-line me-1 fw-medium align-middle"></i>افزودن از VCF
+                                    </a>
                                     <select id="choices-single-default" class="form-control" name="sort">
                                         <option value="">مرتب‌سازی بر اساس</option>
                                         <option
@@ -99,8 +102,15 @@
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone ?? '-' }}</td>
-                                        <td>{{ $user->gender == 0 ? 'مرد' : 'زن' }}</td>
-                                        <td>{{ verta($user->birth_date)->format('Y/m/d H:i') }}</td>
+                                        <td>
+                                            @if($user->gender === 'male')
+                                                مرد
+                                            @elseif($user->gender === 'female')
+                                                زن
+                                            @else
+                                                نامشخص
+                                            @endif
+                                        </td>                                        <td>{{ verta($user->birth_date)->format('Y/m/d H:i') }}</td>
                                         <td>
                                             <span class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
                                                 {{ $user->is_active ? 'فعال' : 'غیرفعال' }}

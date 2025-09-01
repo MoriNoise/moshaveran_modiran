@@ -44,6 +44,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{user}/edit', 'edit')->name('edit');
             Route::put('/{user}/edit', 'update')->name('update');
             Route::delete('/{user}', 'destroy')->name('destroy');
+            // routes/web.php
+            Route::get('/import/vcf',  'importForm')->name('import.vcf');
+            Route::post('/import/vcf',  'importVcf')->name('import.vcf.store');
+
         });
 
 

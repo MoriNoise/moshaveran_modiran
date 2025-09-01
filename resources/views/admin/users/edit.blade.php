@@ -1,7 +1,5 @@
 @extends('admin.layouts.base')
 
-
-
 @section('content')
     <div class="main-content app-content">
         <div class="container-fluid">
@@ -18,7 +16,6 @@
                         </nav>
                     </div>
                 </div>
-
             </div>
             <!-- Page Header Close -->
 
@@ -26,9 +23,7 @@
 
             <div class="row">
                 <div class="col-xl-12">
-
-                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST"
-                          enctype="multipart/form-data">
+                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card custom-card">
@@ -37,82 +32,104 @@
                             </div>
 
                             <div class="card-body">
-
-                                <!-- User Fields -->
                                 <div class="row gy-3">
+
+                                    <!-- First Name -->
                                     <div class="col-xl-6">
                                         <label class="form-label">نام</label>
-                                        <input type="text" class="form-control" name="first_name"
-                                               value="{{ old('first_name', $user->first_name) }}"
-                                               placeholder="نام را وارد کنید">
+                                        <input type="text" class="form-control @error('first_name') is-invalid @enderror"
+                                               name="first_name" value="{{ old('first_name', $user->first_name) }}">
+                                        @error('first_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
+                                    <!-- Last Name -->
                                     <div class="col-xl-6">
                                         <label class="form-label">نام خانوادگی</label>
-                                        <input type="text" class="form-control" name="last_name"
-                                               value="{{ old('last_name', $user->last_name) }}"
-                                               placeholder="نام خانوادگی را وارد کنید">
+                                        <input type="text" class="form-control @error('last_name') is-invalid @enderror"
+                                               name="last_name" value="{{ old('last_name', $user->last_name) }}">
+                                        @error('last_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label class="form-label">نام کاربری</label>
-                                        <input type="text" class="form-control" name="username"
-                                               value="{{ old('username', $user->username) }}" placeholder="نام کاربری">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <label class="form-label">ایمیل</label>
-                                        <input type="email" class="form-control" name="email"
-                                               value="{{ old('email', $user->email) }}"
-                                               placeholder="ایمیل را وارد کنید">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <label class="form-label">رمز عبور (در صورت تغییر)</label>
-                                        <input type="password" class="form-control" name="password"
-                                               placeholder="رمز عبور را وارد کنید">
-                                    </div>
+
+                                    <!-- Phone -->
                                     <div class="col-xl-6">
                                         <label class="form-label">شماره تماس</label>
-                                        <input type="text" class="form-control" name="phone"
-                                               value="{{ old('phone', $user->phone) }}"
-                                               placeholder="شماره تماس را وارد کنید">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <label class="form-label">تاریخ تولد</label>
-                                        <input type="text" id="birth_date" class="form-control" name="birth_date"
-                                               value="{{ old('birth_date', $user->birth_date) }}">
+                                        <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                               name="phone" value="{{ old('phone', $user->phone) }}">
+                                        @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
+                                    <!-- Email -->
+                                    <div class="col-xl-6">
+                                        <label class="form-label">ایمیل</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                               name="email" value="{{ old('email', $user->email) }}">
+                                        @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Gender -->
                                     <div class="col-xl-6">
                                         <label class="form-label">جنسیت</label>
-                                        <select class="form-control" name="gender">
-                                            <option value="1" {{ old('gender', $user->gender) == 1 ? 'selected' : '' }}>
-                                                مرد
-                                            </option>
-                                            <option value="2" {{ old('gender', $user->gender) == 2 ? 'selected' : '' }}>
-                                                زن
-                                            </option>
-                                            <option value="0" {{ old('gender', $user->gender) == 0 ? 'selected' : '' }}>
-                                                سایر
-                                            </option>
+                                        <select class="form-control @error('gender') is-invalid @enderror" name="gender">
+                                            <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>مرد</option>
+                                            <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>زن</option>
+                                            <option value="other" {{ old('gender', $user->gender) == 'other' ? 'selected' : '' }}>نامشخص</option>
                                         </select>
+                                        @error('gender')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
+                                    <!-- Birthday (Persian date picker) -->
+                                    <div class="col-xl-6">
+                                        <label class="form-label">تاریخ تولد</label>
+                                        <input type="text" id="birthday_view" class="form-control @error('birthday') is-invalid @enderror"
+                                               name="birthday" value="{{ old('birthday', $user->birthday) }}">
+                                        <input type="hidden" id="birthday" name="birthday" value="{{ old('birthday', $user->birthday) }}">
+                                        @error('birthday')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Organization -->
+                                    <div class="col-xl-6">
+                                        <label class="form-label">سازمان</label>
+                                        <input type="text" class="form-control @error('organization') is-invalid @enderror"
+                                               name="organization" value="{{ old('organization', $user->organization) }}">
+                                        @error('organization')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Active -->
+                                    <div class="col-xl-6">
+                                        <label class="form-label">فعال / غیر فعال</label>
+                                        <select class="form-control @error('is_active') is-invalid @enderror" name="is_active">
+                                            <option value="1" {{ old('is_active', $user->is_active) == 1 ? 'selected' : '' }}>فعال</option>
+                                            <option value="0" {{ old('is_active', $user->is_active) == 0 ? 'selected' : '' }}>غیر فعال</option>
+                                        </select>
+                                        @error('is_active')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Extra JSON -->
                                     <div class="col-xl-12">
-                                        <label class="form-label">بیوگرافی</label>
-                                        <textarea class="form-control" name="bio" rows="3"
-                                                  placeholder="بیوگرافی را وارد کنید">{{ old('bio', $user->bio) }}</textarea>
+                                        <label class="form-label">اطلاعات اضافی (JSON)</label>
+                                        <textarea class="form-control @error('extra') is-invalid @enderror"
+                                                  name="extra" rows="3">{{ old('extra', $user->extra) }}</textarea>
+                                        @error('extra')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
-                                    <div class="card-avatar">
-                                        <!-- Avatar Picker -->
-                                        <div class="text-center">
-                                            <label class="form-label d-block mb-2 fw-semibold">تصویر پروفایل</label>
-
-                                            <label class="avatar-picker" id="avatarPreview"
-                                                   style="background-image: url('{{ $user->files->last()?->filename ? storage_asset($user->files->last()->filename) : asset('assets/admin/images/faces/DefaultAvatar.jpg') }}')">
-                                                <input type="file" name="images[]" accept="image/*" multiple
-                                                       onchange="previewAvatar(this)">
-                                            </label>
-
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -123,10 +140,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
-
 @endsection
-
-

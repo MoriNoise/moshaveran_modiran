@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('first_name', 100)->nullable();
             $table->string('last_name', 100)->nullable();
             $table->string('full_name', 200)->nullable();
+            $table->string('phone', 20)->unique()->nullable(); // 📞 شماره تلفن
+            $table->string('email', 150)->unique()->nullable(); // 📧 ایمیل
             $table->enum('gender', ['male','female','other'])->nullable();
             $table->date('birthday')->nullable();
             $table->string('organization', 150)->nullable();
