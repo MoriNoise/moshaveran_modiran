@@ -27,12 +27,14 @@ class MessageGroup extends Model
 
     protected $casts = [
         'created_by' => 'int',
+        'is_active' => 'boolean',
     ];
 
     protected $fillable = [
         'name',
         'description',
         'created_by',
+        'is_active',
     ];
 
     // Group creator

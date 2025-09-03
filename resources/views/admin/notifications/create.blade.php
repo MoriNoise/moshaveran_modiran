@@ -54,7 +54,7 @@
                                 <!-- Content -->
                                 <div class="mb-3">
                                     <label for="content" class="form-label">محتوا</label>
-                                    <textarea name="content" id="content" rows="6" class="form-control">{{ old('content') }}</textarea>
+                                    <textarea name="content" id="content" rows="18" class="form-control">{{ old('content') }}</textarea>
                                     @error('content')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror

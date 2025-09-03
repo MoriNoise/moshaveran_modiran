@@ -45,7 +45,7 @@ class MessageGroupController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('first_name')->get();
+        $users = User::orderBy('first_name')->paginate(10);
         $templates = MessageTemplate::orderBy('name')->get();
 
         return view('admin.message_groups.create', compact('users', 'templates'));
@@ -108,16 +108,56 @@ class MessageGroupController extends Controller
     public function edit(int $id)
     {
         $messageGroup = MessageGroup::with('users', 'template.template')->findOrFail($id);
-        $users = User::orderBy('first_name')->get();
+
+        $selectedUserIds = $messageGroup->users->pluck('id')->toArray();
+
+        $usersQuery = User::query();
+
+        // Search
+        if ($search = request('search')) {
+            $usersQuery->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // Filters
+        if ($gender = request('gender')) {
+            $usersQuery->where('gender', $gender);
+        }
+
+        if (request()->has('status')) {
+            $usersQuery->where('is_active', request('status'));
+        }
+
+        // Move selected users to top
+        if (!empty($selectedUserIds)) {
+            $idsString = implode(',', $selectedUserIds);
+            $usersQuery->orderByRaw("FIELD(id, {$idsString}) DESC");
+        }
+
+        // Sorting
+        if ($sort = request('sort')) {
+            switch ($sort) {
+                case 'name_asc': $usersQuery->orderBy('first_name', 'asc'); break;
+                case 'name_desc': $usersQuery->orderBy('first_name', 'desc'); break;
+                case 'Newest': $usersQuery->orderBy('created_at', 'desc'); break;
+                case 'Oldest': $usersQuery->orderBy('created_at', 'asc'); break;
+            }
+        } else {
+            $usersQuery->orderBy('first_name', 'asc');
+        }
+
+        $users = $usersQuery->paginate(10)->withQueryString(); // keep filters in pagination links
         $templates = MessageTemplate::orderBy('name')->get();
 
-        return view('admin.message_groups.edit', [
-            'title' => 'ویرایش گروه پیام',
-            'messageGroup' => $messageGroup,
-            'users' => $users,
-            'templates' => $templates,
-        ]);
+        return view('admin.message_groups.edit', compact('messageGroup', 'users', 'templates'));
     }
+
+
+
 
     /**
      * Update the specified group in storage.
@@ -130,19 +170,25 @@ class MessageGroupController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'template_id' => 'nullable|exists:message_templates,id',
-            'users'       => 'nullable|array',
-            'users.*'     => 'exists:users,id',
+            'selected_users' => 'nullable|string', // new hidden input
+            'is_active' => 'nullable|boolean:', // new hidden input
         ]);
 
-        // Update group
+        // Update group info
         $messageGroup->update([
             'name'        => $request->name,
             'description' => $request->description,
+            'is_active' => $request->is_active,
         ]);
 
+        // Convert selected_users (comma-separated string) to array
+        $users = $request->filled('selected_users')
+            ? array_filter(explode(',', $request->selected_users))
+            : [];
+
         // Sync users
-        if ($request->filled('users')) {
-            $messageGroup->users()->sync($request->users);
+        if (!empty($users)) {
+            $messageGroup->users()->sync($users);
         } else {
             $messageGroup->users()->detach();
         }

@@ -64,6 +64,7 @@
                                     <th>نام</th>
                                     <th>توضیحات</th>
                                     <th>تعداد کاربران</th>
+                                    <th>وضعیت</th>
                                     <th>تاریخ ایجاد</th>
                                     <th>اقدامات</th>
                                 </tr>
@@ -74,6 +75,11 @@
                                         <td>{{ $group->name }}</td>
                                         <td>{{ Str::limit($group->description, 50) ?? '-' }}</td>
                                         <td>{{ $group->users_count ?? $group->users()->count() }}</td>
+                                        <td>
+    <span class="badge {{ $group->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
+        {{ $group->is_active ? 'فعال' : 'غیرفعال' }}
+    </span>
+                                        </td>
                                         <td>{{ verta($group->created_at)->format('j F Y - H:i') }}</td>
                                         <td>
                                             <div class="btn-list">
@@ -101,7 +107,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">هیچ گروهی یافت نشد.</td>
+                                        <td colspan="6" class="text-center">هیچ گروهی یافت نشد.</td>
                                     </tr>
                                 @endforelse
                                 </tbody>

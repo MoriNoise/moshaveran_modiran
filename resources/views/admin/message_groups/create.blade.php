@@ -22,33 +22,20 @@
 
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <form action="{{ route('admin.message-groups.store') }}" method="POST">
-                                @csrf
+                    <div class="card custom-card p-3">
+                        <form action="{{ route('admin.message-groups.store') }}" method="POST">
+                            @csrf
 
-                                <!-- Group Name -->
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">نام گروه</label>
-                                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
-                                    @error('name')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
+                            <!-- Group Info -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">نام گروه</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                                    @error('name') <div class="text-danger mt-1">{{ $message }}</div> @enderror
                                 </div>
-
-                                <!-- Group Description -->
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">توضیحات</label>
-                                    <textarea name="description" id="description" rows="3" class="form-control">{{ old('description') }}</textarea>
-                                    @error('description')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <!-- Message Template -->
-                                <div class="mb-3">
-                                    <label for="template_id" class="form-label">قالب پیام</label>
-                                    <select name="template_id" id="template_id" class="form-control">
+                                <div class="col-md-4">
+                                    <label class="form-label">قالب پیام</label>
+                                    <select name="template_id" class="form-control">
                                         <option value="">انتخاب قالب پیام</option>
                                         @foreach($templates as $template)
                                             <option value="{{ $template->id }}" {{ old('template_id') == $template->id ? 'selected' : '' }}>
@@ -56,54 +43,82 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('template_id')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
+                                    @error('template_id') <div class="text-danger mt-1">{{ $message }}</div> @enderror
                                 </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">وضعیت گروه</label>
+                                    <select name="is_active" class="form-control">
+                                        <option value="1" {{ old('is_active', 1) == 1 ? 'selected' : '' }}>فعال</option>
+                                        <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>غیرفعال</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                                <!-- Users Table -->
-                                <div class="mb-3">
-                                    <label class="form-label">انتخاب کاربران</label>
-                                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                                        <table class="table table-hover text-nowrap table-bordered mb-0">
-                                            <thead>
+                            <!-- Group Description -->
+                            <div class="mb-3">
+                                <label class="form-label">توضیحات</label>
+                                <textarea name="description" rows="3" class="form-control">{{ old('description') }}</textarea>
+                                @error('description') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                            </div>
+
+                            <!-- Users Table -->
+                            <div class="mb-3">
+                                <label class="form-label">انتخاب کاربران</label>
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-hover text-nowrap table-bordered mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th style="width:50px;"><input type="checkbox" id="select-all"></th>
+                                            <th>نام و نام خانوادگی</th>
+                                            <th>ایمیل</th>
+                                            <th>شماره تماس</th>
+                                            <th>وضعیت</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($users as $user)
                                             <tr>
-                                                <th style="width:50px;"><input type="checkbox" id="select-all"></th>
-                                                <th>نام و نام خانوادگی</th>
-                                                <th>ایمیل</th>
-                                                <th>شماره تماس</th>
-                                                <th>وضعیت</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($users as $user)
-                                                <tr>
-                                                    <td>
-                                                        <input type="checkbox" name="users[]" value="{{ $user->id }}"
-                                                            {{ in_array($user->id, old('users', [])) ? 'checked' : '' }}>
-                                                    </td>
-                                                    <td>{{ $user->first_name }} {{ $user->last_name ?? '' }}</td>
-                                                    <td>{{ $user->email ?? '-' }}</td>
-                                                    <td>{{ $user->phone ?? '-' }}</td>
-                                                    <td>
-                                                    <span class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
-                                                        {{ $user->is_active ? 'فعال' : 'غیرفعال' }}
+                                                <td>
+                                                    <input type="checkbox" name="users-checkbox" value="{{ $user->id }}">
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                    <span class="avatar avatar-rounded p-1 bg-primary-transparent me-2">
+                                                        <img src="{{ getUserAvatarUrl($user) }}" alt="آواتار کاربر">
                                                     </span>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    @error('users')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
+                                                        <div class="flex-fill">
+                                                        <span class="fw-medium fs-14 d-block text-truncate">
+                                                            {{ $user->first_name }} {{ $user->last_name ?? '' }}
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $user->email ?? '-' }}</td>
+                                                <td>{{ $user->phone ?? '-' }}</td>
+                                                <td>
+                                                <span class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
+                                                    {{ $user->is_active ? 'فعال' : 'غیرفعال' }}
+                                                </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-wave waves-effect waves-light">ایجاد گروه</button>
-                                <a href="{{ route('admin.message-groups.index') }}" class="btn btn-light">بازگشت</a>
-                            </form>
-                        </div>
+                                <!-- Hidden input to track selected users across pages -->
+                                <input type="hidden" name="selected_users" id="selected-users" value="{{ implode(',', old('users', [])) }}">
+
+                                <!-- Pagination -->
+                                <div class="mt-3">
+                                    {{ $users->links('vendor.pagination.bootstrap-5') }}
+                                </div>
+                                @error('users') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-wave waves-effect waves-light">ایجاد گروه</button>
+                            <a href="{{ route('admin.message-groups.index') }}" class="btn btn-light">بازگشت</a>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -112,10 +127,50 @@
     </div>
 
     <script>
-        // Select/Deselect all checkboxes
+        // Initialize selected users from LocalStorage or hidden input
+        let selectedUsers = new Set(
+            (localStorage.getItem('selected_users') || document.getElementById('selected-users').value).split(',').filter(Boolean)
+        );
+
+        // Apply checkbox selections for current page
+        function applySelections() {
+            document.querySelectorAll('input[name="users-checkbox"]').forEach(cb => {
+                cb.checked = selectedUsers.has(cb.value);
+            });
+
+            const allCheckboxes = document.querySelectorAll('input[name="users-checkbox"]');
+            document.getElementById('select-all').checked = allCheckboxes.length && Array.from(allCheckboxes).every(cb => cb.checked);
+        }
+
+        applySelections();
+
+        // When a checkbox is clicked
+        document.querySelectorAll('input[name="users-checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                if (this.checked) selectedUsers.add(this.value);
+                else selectedUsers.delete(this.value);
+
+                localStorage.setItem('selected_users', Array.from(selectedUsers).join(','));
+                document.getElementById('selected-users').value = Array.from(selectedUsers).join(',');
+                applySelections();
+            });
+        });
+
+        // Select/Deselect all on current page
         document.getElementById('select-all').addEventListener('click', function() {
-            let checkboxes = document.querySelectorAll('input[name="users[]"]');
-            checkboxes.forEach(cb => cb.checked = this.checked);
+            document.querySelectorAll('input[name="users-checkbox"]').forEach(cb => {
+                cb.checked = this.checked;
+                if(this.checked) selectedUsers.add(cb.value);
+                else selectedUsers.delete(cb.value);
+            });
+            localStorage.setItem('selected_users', Array.from(selectedUsers).join(','));
+            document.getElementById('selected-users').value = Array.from(selectedUsers).join(',');
+        });
+
+        // Clear LocalStorage on form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('selected-users').value = Array.from(selectedUsers).join(',');
+            localStorage.removeItem('selected_users');
         });
     </script>
 @endsection

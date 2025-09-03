@@ -78,6 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{notification}', 'update')->name('update');// update existing
             Route::get('/{notification}/edit', 'edit')->name('edit');
             Route::delete('/{notification}', 'destroy')->name('destroy');
+
         });
         /**
          * Admins

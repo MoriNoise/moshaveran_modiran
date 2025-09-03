@@ -81,7 +81,7 @@
                                     <th>ایمیل</th>
                                     <th>شماره تماس</th>
                                     <th>جنسیت</th>
-                                    <th>تاریخ تولد</th>
+                                
                                     <th>وضعیت</th>
                                     <th>اقدامات</th>
                                 </tr>
@@ -113,7 +113,7 @@
                                                 نامشخص
                                             @endif
                                         </td>
-                                        <td>{{ verta($user->birth_date)->format('j F Y ') }}</td>
+                                       
                                         <td>
                                             <span
                                                 class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">

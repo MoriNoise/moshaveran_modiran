@@ -108,14 +108,7 @@
                                     <li class="slide {{ is_active_route('admin.message-groups.*', 'active') }}">
                                         <a href="{{ route('admin.message-groups.index') }}"
                                            class="side-menu__item {{ is_active_route('admin.message-groups.*', 'active') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="1em"
-                                                 height="1em" viewBox="0 0 24 24">
-                                                <g fill="none" stroke="currentColor" stroke-linecap="round"
-                                                   stroke-linejoin="round" stroke-width="1.5">
-                                                    <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                                                </g>
-                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 2h-2C7.229 2 5.343 2 4.172 3.172S3 6.229 3 10v4c0 3.771 0 5.657 1.172 6.828S7.229 22 11 22h2c3.771 0 5.657 0 6.828-1.172S21 17.771 21 14v-4c0-3.771 0-5.657-1.172-6.828S16.771 2 13 2m8 10H3m12-5H9m6 10H9" color="currentColor"></path></svg>
                                             <span class="side-menu__label"> پیام‌ گروهی</span>
                                         </a>
                                     </li>

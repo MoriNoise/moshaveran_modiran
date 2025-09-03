@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('message_templates', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->text('content'); // with placeholders
-            $table->string('file')->nullable()->after('content');
+            $table->text('content');
+            $table->string('file')->nullable();
             $table->string('category', 50)->nullable();
             $table->timestamps();
         });

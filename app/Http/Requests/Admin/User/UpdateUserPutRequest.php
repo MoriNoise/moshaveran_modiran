@@ -14,9 +14,10 @@ class UpdateUserPutRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = $this->route('user')?->id ?? auth()->id(); // get user ID from route or auth
+$userParam = $this->route('user'); // could be an ID (string/int) or model
+$userId = is_object($userParam) ? $userParam->id : $userParam;
 
-        return [
+return [
             'first_name' => [
                 'required',
                 'string',
@@ -31,19 +32,19 @@ class UpdateUserPutRequest extends FormRequest
                 'min:2',
                 'max:60',
             ],
-            'email' => [
-                'nullable',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($userId),
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'max:20',
-                Rule::unique('users', 'phone')->ignore($userId),
-            ],
+'email' => [
+    'nullable',
+    'string',
+    'email',
+    'max:255',
+    Rule::unique('users', 'email')->ignore($userId),
+],
+'phone' => [
+    'required',
+    'string',
+    'max:20',
+    Rule::unique('users', 'phone')->ignore($userId),
+],
             'gender' => [
                 'nullable',
                 Rule::in(['male', 'female', 'other']),
