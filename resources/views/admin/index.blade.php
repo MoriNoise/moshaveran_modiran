@@ -17,7 +17,6 @@
 
             <!-- Row 1: Stats Cards -->
             <div class="row">
-
                 <!-- Total Users -->
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
                     <div class="card custom-card overflow-hidden">
@@ -81,11 +80,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- End Row 1 -->
 
-            <!-- Row 2: Recent Users Table -->
+            <!-- Row 2: Recent Users Table (Index Style) -->
             <div class="row mt-4">
                 <div class="col-xl-12">
                     <div class="card custom-card">
@@ -95,37 +93,85 @@
                             </div>
                             <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-primary">مشاهده همه</a>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table text-nowrap table-hover mb-0">
-                                    <thead>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-nowrap mb-0">
+                                <thead>
+                                <tr>
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>ایمیل</th>
+                                    <th>شماره تماس</th>
+                                    <th>جنسیت</th>
+                                    <th>وضعیت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($recentUsers as $user)
                                     <tr>
-                                        <th>نام و نام خانوادگی</th>
-                                        <th>ایمیل</th>
-                                        <th>تاریخ ثبت‌نام</th>
-                                        <th>وضعیت</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($recentUsers as $user)
-                                        <tr>
-                                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                                            <td>
-                                            <span class="badge {{ $user->is_active ? 'bg-success' : 'bg-danger' }}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="avatar avatar-rounded p-1 bg-primary-transparent me-2">
+                                                    <img src="{{ getUserAvatarUrl($user) }}" alt="آواتار کاربر">
+                                                </span>
+                                                <div class="flex-fill">
+                                                    <a href="javascript:void(0);"
+                                                       class="fw-medium fs-14 d-block text-truncate">
+                                                        {{ get_user_full_name($user->id) }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? '-' }}</td>
+                                        <td>
+                                            @if($user->gender === 'male')
+                                                مرد
+                                            @elseif($user->gender === 'female')
+                                                زن
+                                            @else
+                                                نامشخص
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
                                                 {{ $user->is_active ? 'فعال' : 'غیرفعال' }}
                                             </span>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="4" class="text-center">کاربری یافت نشد.</td>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="btn-list">
+                                                <a href="{{ route('admin.users.show', $user->id) }}"
+                                                   class="btn btn-primary-light btn-icon btn-sm"
+                                                   data-bs-toggle="tooltip" title="مشاهده">
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                   class="btn btn-secondary-light btn-icon btn-sm"
+                                                   data-bs-toggle="tooltip" title="ویرایش">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                                <a href="javascript:void(0);"
+                                                   onclick="if(confirm('آیا از حذف این کاربر مطمئن هستید؟')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }"
+                                                   class="btn btn-pink-light btn-icon btn-sm" data-bs-toggle="tooltip"
+                                                   title="حذف">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </a>
+                                                <form id="delete-form-{{ $user->id }}"
+                                                      action="{{ route('admin.users.destroy', $user->id) }}"
+                                                      method="POST" style="display:none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">کاربری یافت نشد.</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -134,7 +180,6 @@
 
             <!-- Row 3: Widgets / placeholders -->
             <div class="row mt-4">
-                <!-- Placeholder chart -->
                 <div class="col-xl-6">
                     <div class="card custom-card">
                         <div class="card-header">
@@ -148,7 +193,6 @@
                     </div>
                 </div>
 
-                <!-- Placeholder messages -->
                 <div class="col-xl-6">
                     <div class="card custom-card">
                         <div class="card-header">
