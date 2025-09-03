@@ -25,6 +25,8 @@ class CreateMessageTemplatePostRequest extends FormRequest
             'name' => ['required', 'string', 'max:100'],
             'content' => ['required', 'string'],
             'category' => ['nullable', 'string', 'max:50'],
+            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx,txt', 'max:10240'], // file optional, max 10MB
+
         ];
     }
 }

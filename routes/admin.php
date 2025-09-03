@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\MessageGroup\MessageGroupController;
 use App\Http\Controllers\MessageTemplate\MessageTemplateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Notification\NotificationController;
@@ -56,6 +57,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
          * Notifications
          */
         Route::prefix('messages')->name('notifications.')->controller(MessageTemplateController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('{notification}', 'show')->name('show');
+//            Route::put('/{notification}/edit', 'update')->name('update');
+            Route::put('/{notification}', 'update')->name('update');// update existing
+            Route::get('/{notification}/edit', 'edit')->name('edit');
+            Route::delete('/{notification}', 'destroy')->name('destroy');
+        });
+        /**
+         * GroupMessage
+         */
+        Route::prefix('message-groups')->name('message-groups.')->controller(MessageGroupController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

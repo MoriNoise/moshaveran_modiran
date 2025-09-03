@@ -10,8 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class UserGroupMember
- * 
+ * Class MessageGroupUser
+ *
  * @property int $id
  * @property int $group_id
  * @property int $user_id
@@ -20,14 +20,29 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class UserGroupMember extends Model
+class MessageGroupUser extends Model
 {
-	protected $table = 'user_group_members';
+	protected $table = 'message_group_users';
 
 	protected $casts = [
 		'group_id' => 'int',
 		'user_id' => 'int'
 	];
+
+    public function group()
+    {
+        return $this->belongsTo(MessageGroup::class, 'group_id');
+    }
+
+    public function template()
+    {
+        return $this->belongsTo(MessageTemplate::class, 'template_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'sent_by');
+    }
 
 	protected $fillable = [
 		'group_id',

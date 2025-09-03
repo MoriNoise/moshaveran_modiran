@@ -18,6 +18,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'api',
+        ],
     ],
 
 
@@ -29,6 +33,10 @@ return [
             'model' => App\Models\User::class,
         ],
         'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'api' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],

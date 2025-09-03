@@ -58,7 +58,8 @@
                                 </div>
 
                                 <div class="d-flex" role="search">
-                                    <input class="form-control me-2" type="search" name="search" placeholder="جستجوی کاربر" value="{{ request('search') }}">
+                                    <input class="form-control me-2" type="search" name="search"
+                                           placeholder="جستجوی کاربر" value="{{ request('search') }}">
                                     <button class="btn btn-light" type="submit">جستجو</button>
                                 </div>
                             </div>
@@ -94,7 +95,8 @@
                                                     <img src="{{ getUserAvatarUrl($user) }}" alt="آواتار کاربر">
                                                 </span>
                                                 <div class="flex-fill">
-                                                    <a href="javascript:void(0);" class="fw-medium fs-14 d-block text-truncate">
+                                                    <a href="javascript:void(0);"
+                                                       class="fw-medium fs-14 d-block text-truncate">
                                                         {{ get_user_full_name($user->id) }}
                                                     </a>
                                                 </div>
@@ -110,24 +112,35 @@
                                             @else
                                                 نامشخص
                                             @endif
-                                        </td>                                        <td>{{ verta($user->birth_date)->format('Y/m/d H:i') }}</td>
+                                        </td>
+                                        <td>{{ verta($user->birth_date)->format('j F Y ') }}</td>
                                         <td>
-                                            <span class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
+                                            <span
+                                                class="badge {{ $user->is_active ? 'bg-success-transparent' : 'bg-danger-transparent' }}">
                                                 {{ $user->is_active ? 'فعال' : 'غیرفعال' }}
                                             </span>
                                         </td>
                                         <td>
                                             <div class="btn-list">
-                                                <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-primary-light btn-icon btn-sm" data-bs-toggle="tooltip" title="مشاهده">
+                                                <a href="{{ route('admin.users.show', $user->id) }}"
+                                                   class="btn btn-primary-light btn-icon btn-sm"
+                                                   data-bs-toggle="tooltip" title="مشاهده">
                                                     <i class="ri-eye-line"></i>
                                                 </a>
-                                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-secondary-light btn-icon btn-sm" data-bs-toggle="tooltip" title="ویرایش">
+                                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                   class="btn btn-secondary-light btn-icon btn-sm"
+                                                   data-bs-toggle="tooltip" title="ویرایش">
                                                     <i class="ri-edit-line"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" onclick="if(confirm('آیا از حذف این کاربر مطمئن هستید؟')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }" class="btn btn-pink-light btn-icon btn-sm" data-bs-toggle="tooltip" title="حذف">
+                                                <a href="javascript:void(0);"
+                                                   onclick="if(confirm('آیا از حذف این کاربر مطمئن هستید؟')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }"
+                                                   class="btn btn-pink-light btn-icon btn-sm" data-bs-toggle="tooltip"
+                                                   title="حذف">
                                                     <i class="ri-delete-bin-line"></i>
                                                 </a>
-                                                <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:none;">
+                                                <form id="delete-form-{{ $user->id }}"
+                                                      action="{{ route('admin.users.destroy', $user->id) }}"
+                                                      method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

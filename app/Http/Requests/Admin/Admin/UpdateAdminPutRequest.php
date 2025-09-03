@@ -31,7 +31,7 @@ class UpdateAdminPutRequest extends FormRequest
             'password'   => ['nullable', 'string', 'min:6'],
             'is_super'   => ['required', 'boolean'],
             'is_active'  => ['required', 'boolean'],
-            'images.*'   => ['nullable', 'image', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'max:2048'], // max 2MB
         ];
     }
 }

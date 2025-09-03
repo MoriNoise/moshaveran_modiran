@@ -230,7 +230,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $data['password'] = Hash::make($data['password']);
+//        $data['password'] = Hash::make($data['password']);
 
 
         $user = User::create($data);
@@ -266,11 +266,11 @@ class UserController extends Controller
 
         $data = $request->validated();
 
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
+//        if (!empty($data['password'])) {
+//            $data['password'] = Hash::make($data['password']);
+//        } else {
+//            unset($data['password']);
+//        }
 
         $user->update($data);
 

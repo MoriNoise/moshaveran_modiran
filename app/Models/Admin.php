@@ -5,10 +5,12 @@
  */
 
 namespace App\Models;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Carbon\Carbon;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 /**
  * Class Admin
  *
@@ -28,6 +30,7 @@ use Carbon\Carbon;
  */
 class Admin extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
 	protected $table = 'admins';
 
 	protected $casts = [

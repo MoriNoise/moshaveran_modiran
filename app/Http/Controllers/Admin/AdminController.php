@@ -67,21 +67,11 @@ class AdminController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
 
-        $admin = Admin::create($data);
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('admins', 'public');
-
-                $admin->files()->create([
-                    'filename' => $path,
-                    'original_name' => $image->getClientOriginalName(),
-                    'mime_type' => $image->getClientMimeType(),
-                    'size' => $image->getSize(),
-                    'type' => 'image',
-                ]);
-            }
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('admins', 'public');
+            $data['avatar'] = $path;
         }
+        $admin = Admin::create($data);
 
         return redirect()->route('admin.admins.index')->with('success', 'مدیر با موفقیت ساخته شد');
     }
@@ -108,21 +98,13 @@ class AdminController extends Controller
             unset($data['password']);
         }
 
-        $admin->update($data);
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('admins', 'public');
-
-//                $admin->files()->create([
-//                    'filename' => $path,
-//                    'original_name' => $image->getClientOriginalName(),
-//                    'mime_type' => $image->getClientMimeType(),
-//                    'size' => $image->getSize(),
-//                    'type' => 'image',
-//                ]);
-            }
+        // Handle avatar
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('admins', 'public');
+            $data['avatar'] = $path;
         }
+
+        $admin->update($data);
 
         return redirect()->route('admin.admins.index')->with('success', 'مدیر با موفقیت ویرایش شد');
     }

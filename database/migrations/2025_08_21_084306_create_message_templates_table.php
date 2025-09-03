@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->text('content'); // with placeholders
+            $table->string('file')->nullable()->after('content');
             $table->string('category', 50)->nullable();
             $table->timestamps();
         });

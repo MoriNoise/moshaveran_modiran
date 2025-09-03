@@ -60,6 +60,15 @@
                                     @enderror
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">فایل ضمیمه</label>
+                                    <input type="file" name="file" id="file" class="form-control">
+                                    @error('file')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
                                 <button type="submit" class="btn btn-primary btn-wave waves-effect waves-light">
                                     ایجاد قالب
                                 </button>

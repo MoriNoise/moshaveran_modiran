@@ -36,26 +36,45 @@
                         <div class="card-body">
 
                             <div class="row gy-3">
+                                <!-- Name -->
                                 <div class="col-xl-6">
                                     <strong>نام قالب:</strong>
                                     <p>{{ $notification->name }}</p>
                                 </div>
 
+                                <!-- Category -->
                                 <div class="col-xl-6">
                                     <strong>دسته‌بندی:</strong>
                                     <p>{{ $notification->category ?? '-' }}</p>
                                 </div>
 
+                                <!-- Content -->
                                 <div class="col-xl-12">
                                     <strong>محتوا:</strong>
                                     <p>{!! nl2br(e($notification->content)) !!}</p>
                                 </div>
 
+                                <!-- Attached File -->
+                                <div class="col-xl-12">
+                                    <strong>فایل ضمیمه:</strong>
+                                    @if($notification->file)
+                                        <p>
+                                            <a href="{{ asset('storage/' . $notification->file) }}" target="_blank" class="text-primary">
+                                                مشاهده / دانلود فایل
+                                            </a>
+                                        </p>
+                                    @else
+                                        <p>-</p>
+                                    @endif
+                                </div>
+
+                                <!-- Created At -->
                                 <div class="col-xl-6">
                                     <strong>تاریخ ایجاد:</strong>
                                     <p>{{ $notification->created_at?->format('Y/m/d H:i') }}</p>
                                 </div>
 
+                                <!-- Updated At -->
                                 <div class="col-xl-6">
                                     <strong>آخرین بروزرسانی:</strong>
                                     <p>{{ $notification->updated_at?->format('Y/m/d H:i') }}</p>

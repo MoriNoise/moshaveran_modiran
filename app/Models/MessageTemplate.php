@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MessageTemplate
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $content
@@ -28,6 +28,7 @@ class MessageTemplate extends Model
 	protected $fillable = [
 		'name',
 		'content',
-		'category'
+		'category',
+        'file',
 	];
 }

@@ -98,9 +98,12 @@
                                         <label class="form-label d-block fw-semibold">تصویر پروفایل</label>
                                         <label class="avatar-picker" id="avatarPreview"
                                                style="background-image: url('{{ getAdminAvatarUrl($admin) }}')">
-                                            <input type="file" name="images[]" accept="image/*" multiple
-                                                   onchange="previewAvatar(this)">
+                                            <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(this)">
                                         </label>
+                                        @error('avatar')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                        @enderror
+
                                     </div>
                                 </div>
                             </div>

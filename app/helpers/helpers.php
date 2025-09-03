@@ -61,9 +61,22 @@ if (!function_exists('get_admin_full_name')) {
 }
 
 if (!function_exists('getAdminAvatarUrl')) {
+    /**
+     * Get the URL of the admin's avatar.
+     *
+     * @param Admin|null $admin
+     * @return string
+     */
     function getAdminAvatarUrl(?Admin $admin = null): string
     {
         $admin ??= auth('admin')->user();
+
+        // If the admin has an avatar column set, use it
+        if ($admin?->avatar) {
+            return asset('storage/' . $admin->avatar);
+        }
+
+        // Otherwise, try to get the first file from FileService
         return app(FileService::class)->getFirstFileUrl(
             $admin,
             'assets/admin/images/faces/DefaultAvatar.jpg'

@@ -31,9 +31,9 @@
                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                                 <div class="d-flex flex-wrap gap-2 align-items-center">
                                     <a href="{{ route('admin.notifications.create') }}" class="btn btn-primary me-2">
-                                        <i class="ri-add-line me-1 fw-medium align-middle"></i> قالب جدید
+                                        <i class="ri-add-line me-1 fw-medium align-middle"></i>قالب جدید
                                     </a>
-                                    <select class="form-control" name="sort">
+                                    <select id="choices-single-default" class="form-control" name="sort">
                                         <option value="">مرتب‌سازی بر اساس</option>
                                         <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>نام (الف - ی)</option>
                                         <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>نام (ی - الف)</option>
@@ -42,6 +42,7 @@
                                         <option value="category" {{ request('sort') == 'category' ? 'selected' : '' }}>دسته‌بندی</option>
                                     </select>
                                 </div>
+
                                 <div class="d-flex" role="search">
                                     <input class="form-control me-2" type="search" name="search" placeholder="جستجو قالب"
                                            value="{{ request('search') }}">

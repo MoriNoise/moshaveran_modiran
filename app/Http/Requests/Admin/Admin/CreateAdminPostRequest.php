@@ -20,7 +20,7 @@ class CreateAdminPostRequest extends FormRequest
             'username' => ['required', 'string', 'max:50', 'unique:admins,username'],
             'email' => ['required', 'email', 'max:255', 'unique:admins,email'],
             'password' => ['required', 'string', 'min:6',],
-            'images.*' => ['nullable', 'image', 'max:2048'], // each image max 2MB
+            'avatar' => ['nullable', 'image', 'max:2048'], // max 2MB// each image max 2MB
         ];
     }
 }

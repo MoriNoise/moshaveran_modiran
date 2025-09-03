@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -16,6 +17,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string|null $first_name
  * @property string|null $last_name
  * @property string|null $full_name
+ * @property string|null $phone
+ * @property string|null $email
  * @property string|null $gender
  * @property Carbon|null $birthday
  * @property string|null $organization
@@ -39,10 +42,11 @@ class User extends Authenticatable
 	protected $fillable = [
 		'first_name',
 		'last_name',
-		'gender',
-		'birthday',
+		'full_name',
 		'phone',
 		'email',
+		'gender',
+		'birthday',
 		'organization',
 		'is_active',
 		'extra'

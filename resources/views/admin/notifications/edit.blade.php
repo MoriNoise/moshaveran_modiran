@@ -28,43 +28,59 @@
                 <div class="col-xl-8 mx-auto">
                     <div class="card custom-card">
                         <div class="card-body">
-                            <form action="{{ route('admin.notifications.update', $notification->id) }}" method="POST">
+                            <form action="{{ route('admin.notifications.update', $notification->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
+                                <!-- Name -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">نام قالب</label>
-                                    <input type="text" name="name" id="name" class="form-control"
-                                           value="{{ old('name', $notification->name) }}">
+                                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $notification->name) }}">
                                     @error('name')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+                                <!-- Category -->
                                 <div class="mb-3">
                                     <label for="category" class="form-label">دسته‌بندی</label>
-                                    <input type="text" name="category" id="category" class="form-control"
-                                           value="{{ old('category', $notification->category) }}">
+                                    <input type="text" name="category" id="category" class="form-control" value="{{ old('category', $notification->category) }}">
                                     @error('category')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+                                <!-- Content -->
                                 <div class="mb-3">
                                     <label for="content" class="form-label">محتوا</label>
-                                    <textarea name="content" id="content" rows="6"
-                                              class="form-control">{{ old('content', $notification->content) }}</textarea>
+                                    <textarea name="content" id="content" rows="6" class="form-control">{{ old('content', $notification->content) }}</textarea>
                                     @error('content')
                                     <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
+                                </div>
 
+                                <!-- File Upload -->
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">فایل ضمیمه</label>
+                                    <input type="file" name="file" id="file" class="form-control">
+
+                                    @if($notification->file)
+                                        <div class="mt-2">
+                                            <a href="{{ asset('storage/' . $notification->file) }}" target="_blank" class="text-primary">
+                                                مشاهده / دانلود فایل فعلی
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    @error('file')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-wave waves-effect waves-light">
                                     بروزرسانی قالب
                                 </button>
                                 <a href="{{ route('admin.notifications.index') }}" class="btn btn-light">بازگشت</a>
-
                             </form>
                         </div>
                     </div>
