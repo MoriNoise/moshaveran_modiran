@@ -29,7 +29,6 @@ class AdminAuthController extends Controller
         // Create Sanctum token
         $token = $admin->createToken('admin-api-token')->plainTextToken;
 
-        // Return JSON with admin info and token
         return response()->json([
             'admin' => [
                 'id' => $admin->id,
