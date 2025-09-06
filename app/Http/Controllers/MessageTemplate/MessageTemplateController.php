@@ -80,9 +80,11 @@ class MessageTemplateController extends Controller
             ->with('success', 'قالب پیام با موفقیت ویرایش شد.');
     }
 
-    public function destroy(MessageTemplate $template)
+    public function destroy(int $id)
     {
-        $template->delete();
+        $notification = MessageTemplate::findOrFail($id);
+
+        $notification->delete();
 
         return redirect()->route('admin.notifications.index')
             ->with('success', 'قالب پیام با موفقیت حذف شد.');

@@ -43,9 +43,9 @@ class MessageGroupController extends Controller
     /**
      * Show the form for creating a new group.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $users = User::orderBy('first_name')->paginate(10);
+        $users = User::orderBy('first_name')->paginate(50);
         $templates = MessageTemplate::orderBy('name')->get();
 
         return view('admin.message_groups.create', compact('users', 'templates'));
@@ -57,26 +57,34 @@ class MessageGroupController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'template_id' => 'nullable|exists:message_templates,id',
-            'users'       => 'nullable|array',
-            'users.*'     => 'exists:users,id',
+            'name'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
+            'template_id'    => 'nullable|exists:message_templates,id',
+            'selected_users' => 'nullable|string',
+            'send_to_all'    => 'nullable|boolean',
         ]);
 
-        // Create group
         $group = MessageGroup::create([
             'name'        => $request->name,
             'description' => $request->description,
             'created_by'  => auth()->id(),
+            'is_active'   => $request->is_active ?? true,
         ]);
 
-        // Sync users
-        if ($request->filled('users')) {
-            $group->users()->sync($request->users);
+        // Handle users
+        $sendToAll = $request->boolean('send_to_all');
+
+        if ($sendToAll) {
+            $allUserIds = User::pluck('id')->toArray();
+            $group->users()->sync($allUserIds);
+        } else {
+            $users = $request->filled('selected_users')
+                ? array_filter(explode(',', $request->selected_users))
+                : [];
+            $group->users()->sync($users);
         }
 
-        // Assign template in group_messages
+        // Handle template
         if ($request->filled('template_id')) {
             DB::table('group_messages')->insert([
                 'group_id'    => $group->id,
@@ -102,19 +110,19 @@ class MessageGroupController extends Controller
             'messageGroup' => $messageGroup,
         ]);
     }
+
     /**
      * Show the form for editing the specified group.
      */
-    public function edit(int $id)
+    public function edit(int $id, Request $request)
     {
         $messageGroup = MessageGroup::with('users', 'template.template')->findOrFail($id);
-
         $selectedUserIds = $messageGroup->users->pluck('id')->toArray();
 
         $usersQuery = User::query();
 
-        // Search
-        if ($search = request('search')) {
+        if ($request->filled('search')) {
+            $search = $request->search;
             $usersQuery->where(function($q) use ($search) {
                 $q->where('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%")
@@ -123,13 +131,12 @@ class MessageGroupController extends Controller
             });
         }
 
-        // Filters
-        if ($gender = request('gender')) {
-            $usersQuery->where('gender', $gender);
+        if ($request->filled('gender')) {
+            $usersQuery->where('gender', $request->gender);
         }
 
-        if (request()->has('status')) {
-            $usersQuery->where('is_active', request('status'));
+        if ($request->filled('status')) {
+            $usersQuery->where('is_active', $request->status);
         }
 
         // Move selected users to top
@@ -139,25 +146,19 @@ class MessageGroupController extends Controller
         }
 
         // Sorting
-        if ($sort = request('sort')) {
-            switch ($sort) {
-                case 'name_asc': $usersQuery->orderBy('first_name', 'asc'); break;
-                case 'name_desc': $usersQuery->orderBy('first_name', 'desc'); break;
-                case 'Newest': $usersQuery->orderBy('created_at', 'desc'); break;
-                case 'Oldest': $usersQuery->orderBy('created_at', 'asc'); break;
-            }
-        } else {
-            $usersQuery->orderBy('first_name', 'asc');
+        switch ($request->sort) {
+            case 'name_asc':  $usersQuery->orderBy('first_name', 'asc'); break;
+            case 'name_desc': $usersQuery->orderBy('first_name', 'desc'); break;
+            case 'Newest':    $usersQuery->orderBy('created_at', 'desc'); break;
+            case 'Oldest':    $usersQuery->orderBy('created_at', 'asc'); break;
+            default:          $usersQuery->orderBy('first_name', 'asc'); break;
         }
 
-        $users = $usersQuery->paginate(10)->withQueryString(); // keep filters in pagination links
+        $users = $usersQuery->paginate(50)->withQueryString(); // keep filters in pagination
         $templates = MessageTemplate::orderBy('name')->get();
 
         return view('admin.message_groups.edit', compact('messageGroup', 'users', 'templates'));
     }
-
-
-
 
     /**
      * Update the specified group in storage.
@@ -167,33 +168,32 @@ class MessageGroupController extends Controller
         $messageGroup = MessageGroup::findOrFail($id);
 
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'template_id' => 'nullable|exists:message_templates,id',
-            'selected_users' => 'nullable|string', // new hidden input
-            'is_active' => 'nullable|boolean:', // new hidden input
+            'name'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
+            'template_id'    => 'nullable|exists:message_templates,id',
+            'selected_users' => 'nullable|string',
+            'is_active'      => 'nullable|boolean',
+            'send_to_all'    => 'nullable|boolean',
         ]);
 
-        // Update group info
         $messageGroup->update([
             'name'        => $request->name,
             'description' => $request->description,
-            'is_active' => $request->is_active,
+            'is_active'   => $request->is_active ?? false,
         ]);
 
-        // Convert selected_users (comma-separated string) to array
-        $users = $request->filled('selected_users')
-            ? array_filter(explode(',', $request->selected_users))
-            : [];
+        $sendToAll = $request->boolean('send_to_all');
 
-        // Sync users
-        if (!empty($users)) {
-            $messageGroup->users()->sync($users);
+        if ($sendToAll) {
+            $allUserIds = User::pluck('id')->toArray();
+            $messageGroup->users()->sync($allUserIds);
         } else {
-            $messageGroup->users()->detach();
+            $users = $request->filled('selected_users')
+                ? array_filter(explode(',', $request->selected_users))
+                : [];
+            $messageGroup->users()->sync($users);
         }
 
-        // Update or insert template assignment in group_messages
         if ($request->filled('template_id')) {
             DB::table('group_messages')->updateOrInsert(
                 ['group_id' => $messageGroup->id],
@@ -217,13 +217,8 @@ class MessageGroupController extends Controller
     {
         $messageGroup = MessageGroup::findOrFail($id);
 
-        // Remove associated group_messages
         DB::table('group_messages')->where('group_id', $messageGroup->id)->delete();
-
-        // Detach users
         $messageGroup->users()->detach();
-
-        // Delete group
         $messageGroup->delete();
 
         return redirect()->route('admin.message-groups.index')
