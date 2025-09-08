@@ -28,7 +28,7 @@
                 <div class="col-xl-8 mx-auto">
                     <div class="card custom-card">
                         <div class="card-body">
-                            <form action="{{ route('admin.notifications.store') }}" method="POST">
+                            <form action="{{ route('admin.notifications.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <!-- Name -->

@@ -19,40 +19,40 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $sort = $request->input('sort');
+        $usersQuery = User::query();
 
-        $users = User::when($search, function ($query, $search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%$search%")
-                    ->orWhere('last_name', 'like', "%$search%")
-                    ->orWhere('email', 'like', "%$search%")
-                    ->orWhere('username', 'like', "%$search%");
+        // 🔍 Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $usersQuery->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
             });
-        })
-            ->when($sort, function ($query, $sort) {
-                switch ($sort) {
-                    case 'name_asc':
-                        $query->orderBy('first_name');
-                        break;
-                    case 'name_desc':
-                        $query->orderBy('first_name', 'desc');
-                        break;
-                    case 'newest':
-                        $query->orderBy('created_at', 'desc');
-                        break;
-                    case 'oldest':
-                        $query->orderBy('created_at', 'asc');
-                        break;
-                    default:
-                        $query->latest();
-                }
-            }, function ($query) {
-                $query->latest();
-            })
-            ->paginate(10)
-            ->appends(['search' => $search, 'sort' => $sort]);
+        }
 
+        // 🚻 Gender filter
+        if ($request->filled('gender')) {
+            $usersQuery->where('gender', $request->gender);
+        }
+
+        // ✅ Status filter
+        if ($request->filled('status')) {
+            $usersQuery->where('is_active', $request->status);
+        }
+
+        // ↕ Sorting
+        switch ($request->sort) {
+            case 'name_asc':  $usersQuery->orderBy('first_name', 'asc'); break;
+            case 'name_desc': $usersQuery->orderBy('first_name', 'desc'); break;
+            case 'newest':    $usersQuery->orderBy('created_at', 'desc'); break;
+            case 'oldest':    $usersQuery->orderBy('created_at', 'asc'); break;
+            default:          $usersQuery->latest(); break;
+        }
+
+        $users = $usersQuery->paginate(10)->withQueryString();
 
         return view('admin.users.index', [
             'title' => 'لیست کاربران',

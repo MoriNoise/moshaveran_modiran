@@ -45,11 +45,41 @@ class MessageGroupController extends Controller
      */
     public function create(Request $request)
     {
-        $users = User::orderBy('first_name')->paginate(50);
+        $usersQuery = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $usersQuery->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('gender')) {
+            $usersQuery->where('gender', $request->gender);
+        }
+
+        if ($request->filled('status')) {
+            $usersQuery->where('is_active', $request->status);
+        }
+
+        // Sorting (optional, like edit)
+        switch ($request->sort) {
+            case 'name_asc':  $usersQuery->orderBy('first_name', 'asc'); break;
+            case 'name_desc': $usersQuery->orderBy('first_name', 'desc'); break;
+            case 'Newest':    $usersQuery->orderBy('created_at', 'desc'); break;
+            case 'Oldest':    $usersQuery->orderBy('created_at', 'asc'); break;
+            default:          $usersQuery->orderBy('first_name', 'asc'); break;
+        }
+
+        $users = $usersQuery->paginate(50)->withQueryString(); // 🔑 keep filters on pagination
         $templates = MessageTemplate::orderBy('name')->get();
 
         return view('admin.message_groups.create', compact('users', 'templates'));
     }
+
 
     /**
      * Store a newly created group in storage.

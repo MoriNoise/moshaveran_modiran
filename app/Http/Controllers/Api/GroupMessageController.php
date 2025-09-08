@@ -12,6 +12,7 @@ class GroupMessageController extends Controller
     {
         $groups = MessageGroup::with(['users:id,first_name,last_name,email,phone,gender', 'templateApi'])
             ->withCount('users')
+            ->where('is_active', 1)
             ->when($request->search, fn($q) => $q->where('name', 'like', '%' . $request->search . '%'))
             ->when($request->sort, function ($q) use ($request) {
                 switch ($request->sort) {
